@@ -8,68 +8,84 @@ const favoritesPage = document.getElementById('favorites-page');
 const homeTab = document.getElementById('home-tab');
 const favoritesTab = document.getElementById('favorites-tab');
 const noFavoritesMessage = document.getElementById('no-favorites-message');
+const adContainer = document.getElementById('ad-container');
+const closeAdButton = document.getElementById('close-ad');
 
 let currentVerse = '';
 let currentReference = '';
-let favorites = [];
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+// Close Ad Functionality
+closeAdButton.addEventListener('click', () => {
+  adContainer.style.display = 'none';
+});
+
+// Check if Ad Content Exists
+setTimeout(() => {
+  const adContent = document.querySelector('#ad-content script');
+  if (adContent) {
+    closeAdButton.style.display = 'block'; // Show close button only if ad exists
+  } else {
+    adContainer.style.display = 'none'; // Hide ad container if no ad content
+  }
+}, 1000);
 
 // Fetch Bible Verse using Gemini API
 async function fetchVerse() {
-  const apiKey = 'AIzaSyAhH0xsR3E5l8JWTmM_8MPjncXPZuM_4lI';
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: 'Give me a random Malayalam Bible verse.' }] }]
-    })
-  });
-  const data = await response.json();
-  const verseText = data.candidates[0].content.parts[0].text;
-  const [verse, reference] = verseText.split('—');
-  currentVerse = verse.trim();
-  currentReference = reference ? reference.trim() : '';
-
-  // Smooth Fade-In Animation for New Verse
-  const quoteBox = document.getElementById('quote-box');
-  quoteBox.style.opacity = 0;
-  setTimeout(() => {
-    verseElement.textContent = currentVerse;
-    referenceElement.textContent = `— ${currentReference}`;
-    quoteBox.style.opacity = 1;
-
-    // Check if the verse is already favorited
-    const isFavorited = favorites.some(fav => fav.verse === currentVerse && fav.reference === currentReference);
-    favoriteButton.classList.toggle('active', isFavorited);
-  }, 300);
+  const apiKey = 'AIzaSyAhH0xsR3E5l8JWTmM_8MPjncXPZuM_4lI'; // Move this to a backend if possible!
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: 'Give me a random Bible verse.' }] }]
+      })
+    });
+    const data = await response.json();
+    const verseText = data.candidates[0].content.parts[0].text;
+    const [verse, reference] = verseText.split('—');
+    currentVerse = verse.trim();
+    currentReference = reference ? reference.trim() : '';
+    
+    const quoteBox = document.getElementById('quote-box');
+    quoteBox.style.opacity = 0;
+    setTimeout(() => {
+      verseElement.textContent = currentVerse;
+      referenceElement.textContent = `— ${currentReference}`;
+      quoteBox.style.opacity = 1;
+      
+      const isFavorited = favorites.some(fav => fav.verse === currentVerse && fav.reference === currentReference);
+      favoriteButton.classList.toggle('active', isFavorited);
+    }, 300);
+  } catch (error) {
+    console.error('Error fetching verse:', error);
+    verseElement.textContent = 'Failed to load verse. Please try again.';
+    referenceElement.textContent = '';
+  }
 }
 
 // Add or Remove from Favorites
 function toggleFavorite(button, verse, reference) {
   const index = favorites.findIndex(fav => fav.verse === verse && fav.reference === reference);
-
   if (index === -1) {
-    // Add to Favorites
     favorites.push({ verse, reference });
     button.classList.add('active');
   } else {
-    // Remove from Favorites
     favorites.splice(index, 1);
     button.classList.remove('active');
   }
-
+  localStorage.setItem('favorites', JSON.stringify(favorites));
   updateFavoritesList();
 }
 
 // Update Favorites List
 function updateFavoritesList() {
   favoritesList.innerHTML = '';
-
   if (favorites.length === 0) {
-    noFavoritesMessage.style.display = 'block'; // Show "No favorites" message
+    noFavoritesMessage.style.display = 'block';
   } else {
-    noFavoritesMessage.style.display = 'none'; // Hide "No favorites" message
+    noFavoritesMessage.style.display = 'none';
   }
-
   favorites.forEach(({ verse, reference }) => {
     const listItem = document.createElement('li');
     const quoteBox = document.createElement('div');
@@ -80,17 +96,14 @@ function updateFavoritesList() {
       <small class="verse-reference">— ${reference}</small>
     `;
     listItem.appendChild(quoteBox);
-
-    // Add Event Listener to Remove from Favorites
+    
     const heartButton = quoteBox.querySelector('.favorite-btn');
     heartButton.addEventListener('click', () => {
-      // Apply Vanishing Animation
       quoteBox.classList.add('fade-out');
       setTimeout(() => {
         toggleFavorite(heartButton, verse, reference);
-      }, 500); // Wait for Animation to Finish
+      }, 500);
     });
-
     favoritesList.prepend(listItem);
   });
 }
@@ -127,4 +140,4 @@ favoritesTab.addEventListener('click', showFavoritesPage);
 // Initialize
 fetchVerse();
 showHomePage();
-updateFavoritesList(); // Ensure the "No favorites yet!" message is shown initially
+updateFavoritesList();
