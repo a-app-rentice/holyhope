@@ -38,7 +38,7 @@ async function fetchVerse() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: 'Give me a random Bible verse.' }] }]
+        contents: [{ parts: [{ text: 'Give me a random Malayalam Bible verse.' }] }]
       })
     });
     const data = await response.json();
