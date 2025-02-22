@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Palatino', sans-serif; /* Tahoma Font */
+  font-family: 'Tahoma', sans-serif; /* Tahoma Font */
   background: #121212; /* Dark Theme Background */
   color: #e0e0e0; /* Light Text Color */
   text-align: center;
@@ -103,7 +103,7 @@ body {
 
 /* App Name Styling */
 h1 {
-  font-family: 'Tahoma', cursive; /* Playful Handwritten Font */
+  font-family: 'Palatino', cursive; /* Playful Handwritten Font */
   font-size: 2.5rem; /* Slightly Larger for Emphasis */
   font-weight: bold; /* Bold for Prominence */
   letter-spacing: 2px;
