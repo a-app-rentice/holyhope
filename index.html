@@ -1,284 +1,50 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HolyHope</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tahoma&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Circles -->
+  <div class="background-circles">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+    <div class="circle circle-5"></div>
+    <div class="circle circle-6"></div>
+  </div>
 
-body {
-  font-family: 'Tahoma', sans-serif; /* Tahoma Font */
-  background: #121212; /* Dark Theme Background */
-  color: #e0e0e0; /* Light Text Color */
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
-  position: relative;
-}
+  <!-- App Name -->
+  <h1>HolyHope</h1>
 
-/* Multi-Colored Circle Animation Background */
-.background-circles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-}
+  <!-- Main App -->
+  <div id="home-page">
+    <div class="quote-box" id="quote-box">
+      <button id="favorite" class="favorite-btn"><i class="fas fa-heart"></i></button>
+      <p id="verse">Loading...</p>
+      <small class="verse-reference" id="reference">— Reference</small>
+    </div>
+    <button id="regenerate" class="regenerate-btn"><i class="fas fa-sync-alt"></i></button>
+  </div>
 
-.circle {
-  position: absolute;
-  border-radius: 50%;
-  animation: float 10s infinite ease-in-out;
-}
+  <!-- Favorites Page -->
+  <div id="favorites-page" class="favorites-section">
+    <ul id="favorites-list"></ul>
+    <p id="no-favorites-message" style="display: none;">No favorites yet!</p>
+  </div>
 
-.circle-1 {
-  width: 200px;
-  height: 200px;
-  top: 10%;
-  left: 20%;
-  background: rgba(187, 134, 252, 0.2); /* Purple */
-  animation-delay: 0s;
-}
+  <!-- Navigation Tabs -->
+  <div class="tabs">
+    <button id="home-tab" class="tab-btn active"><i class="fas fa-home"></i></button>
+    <button id="favorites-tab" class="tab-btn"><i class="fas fa-heart"></i></button>
+  </div>
 
-.circle-2 {
-  width: 180px;
-  height: 180px;
-  top: 50%;
-  left: 70%;
-  background: rgba(255, 193, 7, 0.2); /* Yellow */
-  animation-delay: 2s;
-}
-
-.circle-3 {
-  width: 150px;
-  height: 150px;
-  top: 80%;
-  left: 30%;
-  background: rgba(76, 175, 80, 0.2); /* Green */
-  animation-delay: 4s;
-}
-
-.circle-4 {
-  width: 120px;
-  height: 120px;
-  top: 30%;
-  left: 50%;
-  background: rgba(255, 87, 34, 0.2); /* Orange */
-  animation-delay: 6s;
-}
-
-.circle-5 {
-  width: 100px;
-  height: 100px;
-  top: 60%;
-  left: 10%;
-  background: rgba(139, 0, 139, 0.2); /* Dark Violet */
-  animation-delay: 8s;
-}
-
-.circle-6 {
-  width: 80px;
-  height: 80px;
-  top: 40%;
-  left: 90%;
-  background: rgba(0, 191, 255, 0.2); /* Sky Blue */
-  animation-delay: 10s;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-20px) scale(1.1);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* App Name Styling */
-h1 {
-  font-family: 'Pacifico', cursive; /* Playful Handwritten Font */
-  font-size: 2.5rem; /* Slightly Larger for Emphasis */
-  font-weight: bold; /* Bold for Prominence */
-  letter-spacing: 2px;
-  color: #ff6f91; /* Sweet Pink Color */
-  margin: 20px auto;
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-/* Transparent Container for Verse */
-.quote-box {
-  background: rgba(255, 255, 255, 0.1); /* Transparent Background */
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 15px;
-  margin: 20px auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: calc(100% - 40px); /* Full Width with Padding */
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  position: relative;
-}
-
-.quote-box p {
-  font-size: 1.5rem;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-.verse-reference {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-top: 10px;
-  text-align: left;
-}
-
-/* Favorite Button Inside Verse Box */
-.favorite-btn {
-  position: absolute;
-  top: 10px; /* Fully Contained in Top-Right Corner */
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 28px; /* Increased Size */
-  cursor: pointer;
-  color: #aaa; /* Default Gray Color */
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.favorite-btn:hover {
-  transform: scale(1.2) rotate(15deg); /* Slight Rotation and Scaling on Hover */
-}
-
-.favorite-btn.active {
-  color: #bb86fc; /* Accent Color */
-  animation: pulse 1s infinite ease-in-out; /* Pulsing Animation When Active */
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Regenerate Button Below Verse Box */
-.regenerate-btn {
-  background: none;
-  border: none;
-  font-size: 40px; /* Further Increased Size */
-  cursor: pointer;
-  color: #aaa;
-  padding: 20px 30px; /* Increased Padding */
-  border-radius: 25px;
-  margin-top: 10px;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.regenerate-btn.active {
-  color: #bb86fc; /* Accent Color */
-  transform: rotate(360deg); /* Rotate Effect */
-}
-
-/* Navigation Tabs */
-.tabs {
-  display: flex;
-  justify-content: space-around;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #1e1e1e;
-  padding: 15px 0;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  font-size: 32px;
-  cursor: pointer;
-  color: #e0e0e0;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.tab-btn.active {
-  color: #bb86fc;
-  transform: scale(1.1); /* Stay Slightly Larger in Active State */
-}
-
-.tab-btn:hover {
-  transform: scale(1.1);
-  color: #bb86fc;
-}
-
-/* Favorites Page */
-.favorites-section {
-  display: none;
-  margin-top: 60px;
-  max-height: calc(100vh - 180px); /* Adjusted Height to Match Bottom Limit */
-  overflow-y: auto;
-  padding: 0 20px; /* Horizontal Padding */
-}
-
-.favorites-section::-webkit-scrollbar {
-  display: none; /* Hide Scrollbar */
-}
-
-.favorites-section li {
-  list-style: none; /* No Bullet Points */
-  margin: 10px 0;
-}
-
-.favorites-section .quote-box {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: calc(100% - 40px); /* Full Width with Padding */
-  margin: 0 auto;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  position: relative;
-}
-
-.favorites-section .quote-box:hover {
-  transform: scale(1.02);
-}
-
-/* Empty Favorites Message */
-#no-favorites-message {
-  font-size: 1.2rem;
-  color: #aaa;
-  margin-top: 20px;
-  display: block; /* Always Visible Initially */
-}
-
-/* Vanishing Animation for Favorites Removal */
-.fade-out {
-  animation: fadeOut 0.5s ease forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-}
+  <script src="script.js"></script>
+</body>
+</html>
