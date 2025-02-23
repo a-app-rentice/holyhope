@@ -36,44 +36,22 @@ body {
   margin: 0 auto;
 }
 
-/* Banner Ad */
-#banner-ad {
-  position: fixed;
-  top: 50px; /* Below the app header */
+/* Hidden Banner Ad */
+#hidden-banner-ad {
+  position: absolute;
+  bottom: 0; /* Placed at the bottom of the container */
   left: 0;
   width: 100%;
   height: 50px; /* Standard mobile banner height */
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  visibility: hidden; /* Makes the ad invisible to users */
+  opacity: 0; /* Ensures no visual clutter */
+  pointer-events: none; /* Prevents interaction */
 }
 
-#banner-ad iframe {
+#hidden-banner-ad iframe {
   width: 100%;
   height: 100%;
   border: none;
-}
-
-#close-banner {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  background: #bb86fc;
-  border: none;
-  font-size: 20px;
-  color: #fff;
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 11;
-  transition: transform 0.3s ease;
-}
-
-#close-banner:hover {
-  transform: scale(1.1);
 }
 
 /* Background Circles */
