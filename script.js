@@ -1,4 +1,3 @@
-// DOM Elements
 const verseElement = document.getElementById('verse');
 const referenceElement = document.getElementById('reference');
 const regenerateButton = document.getElementById('regenerate');
@@ -9,11 +8,27 @@ const favoritesPage = document.getElementById('favorites-page');
 const homeTab = document.getElementById('home-tab');
 const favoritesTab = document.getElementById('favorites-tab');
 const noFavoritesMessage = document.getElementById('no-favorites-message');
+const adContainer = document.getElementById('ad-container');
+const closeAdButton = document.getElementById('close-ad');
 
-// App State
 let currentVerse = '';
 let currentReference = '';
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+// Close Ad Functionality
+closeAdButton.addEventListener('click', () => {
+  adContainer.style.display = 'none';
+});
+
+// Check if Ad Content Exists
+setTimeout(() => {
+  const adContent = document.querySelector('#ad-content script');
+  if (adContent) {
+    closeAdButton.style.display = 'block'; // Show close button only if ad exists
+  } else {
+    adContainer.style.display = 'none'; // Hide ad container if no ad content
+  }
+}, 1000);
 
 // Fetch Bible Verse using Gemini API
 async function fetchVerse() {
@@ -23,7 +38,7 @@ async function fetchVerse() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: 'Give me a random Bible verse.' }] }]
+        contents: [{ parts: [{ text: 'Give me a random Malayalam Bible verse.' }] }]
       })
     });
     const data = await response.json();
