@@ -1,3 +1,4 @@
+// DOM Elements
 const verseElement = document.getElementById('verse');
 const referenceElement = document.getElementById('reference');
 const regenerateButton = document.getElementById('regenerate');
@@ -8,27 +9,11 @@ const favoritesPage = document.getElementById('favorites-page');
 const homeTab = document.getElementById('home-tab');
 const favoritesTab = document.getElementById('favorites-tab');
 const noFavoritesMessage = document.getElementById('no-favorites-message');
-const adContainer = document.getElementById('ad-container');
-const closeAdButton = document.getElementById('close-ad');
 
+// App State
 let currentVerse = '';
 let currentReference = '';
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-// Close Ad Functionality
-closeAdButton.addEventListener('click', () => {
-  adContainer.style.display = 'none';
-});
-
-// Check if Ad Content Exists
-setTimeout(() => {
-  const adContent = document.querySelector('#ad-content script');
-  if (adContent) {
-    closeAdButton.style.display = 'block'; // Show close button only if ad exists
-  } else {
-    adContainer.style.display = 'none'; // Hide ad container if no ad content
-  }
-}, 1000);
 
 // Fetch Bible Verse using Gemini API
 async function fetchVerse() {
@@ -46,14 +31,14 @@ async function fetchVerse() {
     const [verse, reference] = verseText.split('—');
     currentVerse = verse.trim();
     currentReference = reference ? reference.trim() : '';
-
+    
     const quoteBox = document.getElementById('quote-box');
     quoteBox.style.opacity = 0;
     setTimeout(() => {
       verseElement.textContent = currentVerse;
       referenceElement.textContent = `— ${currentReference}`;
       quoteBox.style.opacity = 1;
-
+      
       const isFavorited = favorites.some(fav => fav.verse === currentVerse && fav.reference === currentReference);
       favoriteButton.classList.toggle('active', isFavorited);
     }, 300);
@@ -96,7 +81,7 @@ function updateFavoritesList() {
       <small class="verse-reference">— ${reference}</small>
     `;
     listItem.appendChild(quoteBox);
-
+    
     const heartButton = quoteBox.querySelector('.favorite-btn');
     heartButton.addEventListener('click', () => {
       quoteBox.classList.add('fade-out');
